@@ -34,14 +34,14 @@ module.exports.signUp = async (req, res) => {
     });
 
     // Creation de l'Url de confirmation
-    const confirmationUrl = `http://localhost:5001/api/user/confirm/${user.confirmationToken}`;
+    const confirmationUrl = `https://capharnaum.alwaysdata.net/api/user/confirm/${user.confirmationToken}`;
 
     // Options de l'email
     const mailOptions = {
       from: "ton-email@gmail.com",
       to: email,
       subject: "Confirmation de votre compte",
-      text: `Bonjour ${prenom},\n\nMerci de vous être inscrit !\n\n Ceci est un email de confirmation de votre compte veillez clique sur le lien suivant: \n\n ${confirmationUrl} \n\nCordialement,\nL'équipe`,
+      text: `Bonjour ${prenom},\n\nMerci de vous être inscrit !\n\n Ceci est un email de confirmation de votre compte veuillez cliquer sur le lien suivant: \n\n ${confirmationUrl} \n\nCordialement,\nL'équipe`,
     };
 
     // Envoyer l'email
