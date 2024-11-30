@@ -4,6 +4,20 @@ const bcrypt = require("bcrypt");
 
 const User = new mongoose.Schema(
   {
+    email: {
+      type: String,
+      required: true,
+      lowercase: true,
+      validate: [isEmail],
+      unique: true,
+      trim: true,
+    },
+    password: {
+      type: String,
+      required: true,
+      max: 1024,
+      minlength: 6,
+    },
     nom: {
       type: String,
       required: true,
@@ -18,19 +32,16 @@ const User = new mongoose.Schema(
       maxLength: 55,
       trim: true,
     },
-    email: {
+    bio: {
       type: String,
-      required: true,
-      lowercase: true,
-      validate: [isEmail],
-      unique: true,
-      trim: true,
+      required: false,
+      minLength: 1,
+      maxLength: 123,
+      trim: true
     },
-    password: {
-      type: String,
-      required: true,
-      max: 1024,
-      minlength: 6,
+    interests: {
+      type: Array,
+      required: false
     },
     confirmationToken: {
       type: String,

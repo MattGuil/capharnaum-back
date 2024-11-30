@@ -1,27 +1,5 @@
 const mongoose = require('mongoose');
 
-/*
-const activitySchema = new mongoose.Schema({
-  title: { 
-    type: String,
-    required: true 
- },
-  description: { 
-    type: String
- },
-  location: { type: String,
-     required: true
-     },
-  date: { type: Date,
-     required: true
-     },
-  time: { type: String,
-     required: true },
-
-  organizer: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }
-});
-*/
-
 const disciplines = ['danse', 'dessin', 'théâtre', 'musique', 'photographie'];
 const types = ['cours', 'pratique', 'rencontre', 'spectacle', 'expo'];
 const statuses = ['fermée', 'complète', 'liste d\'attente', 'sans réservation', 'ouverte'];
@@ -100,7 +78,7 @@ const Activity = new mongoose.Schema({
       type: String,
       required: false
    },
-   organizer: { 
+   owner: { 
       type: mongoose.Schema.Types.ObjectId, 
       ref: 'User', 
       required: true 

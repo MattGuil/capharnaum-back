@@ -24,19 +24,16 @@ module.exports.signUp = async (req, res) => {
       confirmationToken: generateToken(),
     });
 
-    // Configurer le transporteur d'email
     const transporter = nodemailer.createTransport({
-      service: "gmail", // ou un autre service
+      service: "gmail",
       auth: {
-        user: "bouananiouahid@gmail.com", //  adresse email
-        pass: "njxiepkddcyrcqaf", // un mot de passe d'application
+        user: "bouananiouahid@gmail.com",
+        pass: "njxiepkddcyrcqaf",
       },
     });
 
-    // Creation de l'Url de confirmation
     const confirmationUrl = `https://capharnaum.alwaysdata.net/api/user/confirm/${user.confirmationToken}`;
 
-    // Options de l'email
     const mailOptions = {
       from: "ton-email@gmail.com",
       to: email,
@@ -44,7 +41,6 @@ module.exports.signUp = async (req, res) => {
       text: `Bonjour ${prenom},\n\nMerci de vous être inscrit !\n\n Ceci est un email de confirmation de votre compte veuillez cliquer sur le lien suivant: \n\n ${confirmationUrl} \n\nCordialement,\nL'équipe`,
     };
 
-    // Envoyer l'email
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
         console.error("Erreur lors de l'envoi de l'email:", error);
@@ -77,7 +73,7 @@ module.exports.confirmEmail = async (req, res) => {
 };
 
 const maxAge = 3 * 24 * 60 * 60 * 1000;
-// Create Token
+
 const createToken = (id) => {
   return jwt.sign({ id }, process.env.TOKEN_SECRET, {
     expiresIn: maxAge,
@@ -88,12 +84,16 @@ module.exports.signIn = async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await UserModel.login(email, password);
-    if (!user.isConfirmed) res.status(402).send("email non confirmé");
 
+    if (!user.isConfirmed) res.status(402).send("email non confirmé");
     else {
       const token = createToken(user._id);
-      res.cookie("jwt", token, { httpOnly: true, maxAge });
-      res.status(200).json({ token: token, user: JSON.stringify(user) });
+      res.cookie('token', token, { 
+        httpOnly: false,
+        secure: false, 
+        maxAge 
+      });
+      res.status(200).json({ userId: user._id });
     }
   } catch (err) {
     res.status(201).json(err.message);
@@ -101,6 +101,6 @@ module.exports.signIn = async (req, res) => {
 };
 
 module.exports.logout = async (req, res) => {
-  res.cookie("jwt", "", { maxAge: 1 });
+  res.cookie("token", "", { maxAge: 1 });
   res.redirect("/");
 };

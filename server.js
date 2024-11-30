@@ -1,5 +1,8 @@
 const express = require('express');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
+const jwt = require("jsonwebtoken");
+
 const app = express();
 
 const userRoutes = require('./routes/user.routes');
@@ -30,9 +33,23 @@ app.use(cors({
   credentials: true
 }));
 
-app.get('/', (req, res) => {
-  res.send(process.env);
+app.use(cookieParser(process.env.TOKEN_SECRET));
+
+app.get('/auth/verify-session', (req, res) => {
+  const token = req.cookies.token;
+
+  if (token) {
+    jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
+      if (err) {
+        return res.status(401).json({ authenticated: false });
+      }
+      res.status(200).json({ authenticated: true });
+    });
+  } else {
+    res.status(401).json({ authenticated: false });
+  }
 });
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
