@@ -90,7 +90,8 @@ module.exports.signIn = async (req, res) => {
       const token = createToken(user._id);
       res.cookie('token', token, { 
         httpOnly: false,
-        secure: process.env.NODE_ENV === 'production', 
+        secure: false,
+        sameSite: false, 
         maxAge 
       });
       res.status(200).json({ userId: user._id });
