@@ -85,14 +85,14 @@ module.exports.signIn = async (req, res) => {
   try {
     const user = await UserModel.login(email, password);
 
-    if (!user.isConfirmed) res.status(402).send("email non confirmé");
+    if (!user.isConfirmed) res.status(402).send("Email non confirmé");
     else {
       const token = createToken(user._id);
       res.cookie('token', token, { 
         httpOnly: false,
         secure: true,
         sameSite: 'None', 
-        maxAge 
+        maxAge
       });
       res.status(200).json({ userId: user._id });
     }
@@ -101,7 +101,18 @@ module.exports.signIn = async (req, res) => {
   }
 };
 
-module.exports.logout = async (req, res) => {
-  res.cookie("token", "", { maxAge: 1 });
-  res.redirect("/");
+module.exports.signOut = async (req, res) => {
+  try {
+    res.cookie('token', '', {
+      httpOnly: false,
+      secure: true,
+      sameSite: 'None',
+      maxAge: 0
+    });
+
+    res.status(200).send("Déconnexion réussie");
+  } catch (err) {
+    console.error("Erreur lors de la déconnexion : ", err);
+    res.status(500).send("Erreur serveur lors de la déconnexion.");
+  }
 };
