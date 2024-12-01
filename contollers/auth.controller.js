@@ -13,7 +13,7 @@ module.exports.signUp = async (req, res) => {
 
     // Génère un token
     const generateToken = () => {
-      return crypto.randomBytes(32).toString("hex"); // Génère un token de 32 octets en hexadécimal
+      return crypto.randomBytes(32).toString("hex");
     };
 
     const user = await UserModel.create({
@@ -35,7 +35,7 @@ module.exports.signUp = async (req, res) => {
     const confirmationUrl = `https://capharnaum.alwaysdata.net/api/user/confirm/${user.confirmationToken}`;
 
     const mailOptions = {
-      from: "ton-email@gmail.com",
+      from: "capharnaum@gmail.com",
       to: email,
       subject: "Confirmation de votre compte",
       text: `Bonjour ${prenom},\n\nMerci de vous être inscrit !\n\n Ceci est un email de confirmation de votre compte veuillez cliquer sur le lien suivant: \n\n ${confirmationUrl} \n\nCordialement,\nL'équipe`,
@@ -90,7 +90,7 @@ module.exports.signIn = async (req, res) => {
       const token = createToken(user._id);
       res.cookie('token', token, { 
         httpOnly: false,
-        secure: false, 
+        secure: process.env.NODE_ENV === 'production', 
         maxAge 
       });
       res.status(200).json({ userId: user._id });
