@@ -43,10 +43,10 @@ app.get('/auth/verify-session', (req, res) => {
       if (err) {
         return res.status(401).json({ authenticated: false });
       }
-      res.status(200).json({ authenticated: true });
+      res.status(200).json({ authenticated: true, cookies: req.cookies });
     });
   } else {
-    res.status(401).json({ authenticated: false });
+    res.status(401).json({ authenticated: false, cookies: req.cookies });
   }
 });
 
