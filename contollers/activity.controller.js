@@ -17,7 +17,16 @@ exports.createActivity = async (req, res) => {
 
 exports.getAllActivities = async (req, res) => {
   try {
-    const activities = await Activity.find();
+    const userId = req.headers['user-id'];
+
+    let activities;
+
+    if (!userId) {
+      activities = await Activity.find();
+    } else {
+      activities = await Activity.find({ owner: userId });
+    }
+    
     res.status(200).json(activities);
   } catch (error) {
     res.status(400).json({ 

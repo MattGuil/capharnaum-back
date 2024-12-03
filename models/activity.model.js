@@ -64,11 +64,11 @@ const Activity = new mongoose.Schema({
    status: { 
       type: String,
       enum: statuses,
-      required: true
+      required: false
    },
    nbParticipants: { 
       type: Number,
-      required: true
+      required: false
    },
    maxParticipants: { 
       type: Number,
