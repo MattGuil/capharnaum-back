@@ -12,9 +12,9 @@ exports.getAllParticipations = async (req, res) => {
 
 exports.createParticipation = async (req, res) => {
   try {
-    const { userId, activityId } = req.body;
+    const { user, activity } = req.body;
     
-    const newParticipation = new Participation({ userId, activityId });
+    const newParticipation = new Participation({ user, activity });
     
     await newParticipation.save();
     
