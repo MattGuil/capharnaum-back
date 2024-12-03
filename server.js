@@ -8,7 +8,7 @@ const app = express();
 const userRoutes = require('./routes/user.routes');
 const activityRoutes = require('./routes/activity.routes');
 const favoriteRoutes = require('./routes/favorite.routes');
-const proposalRoutes = require('./routes/proposal.routes');
+const participationRoutes = require('./routes/participation.routes');
 
 require("dotenv").config({ path: './config/.env' });
 require('./config/db');
@@ -57,7 +57,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/api/user', userRoutes);
 app.use('/api/activity', activityRoutes);
 app.use('/api/favorite', favoriteRoutes);
-app.use('/api/proposal', proposalRoutes);
+app.use('/api/participation', participationRoutes);
 
 app.listen(process.env.PORT, () => {
   console.log(`Listening on port ${process.env.PORT} ...`);
