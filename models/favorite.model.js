@@ -8,7 +8,7 @@ const Favorite = new mongoose.Schema({
   },
   activity: { 
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'activity', 
+    ref: 'Activity', 
     required: true }
 });
 
