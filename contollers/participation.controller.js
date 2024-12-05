@@ -38,6 +38,16 @@ exports.getParticipationById = async (req, res) => {
   }
 };
 
+exports.getParticipationsByUser = async (req, res) => {
+  try {
+    const participations = await Participation.find({ user: req.params.userId }).populate('activity');
+    
+    res.status(200).json(participations);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 exports.deleteParticipation = async (req, res) => {
   try {
     const Participation = await Participation.findByIdAndDelete(req.params.id);
