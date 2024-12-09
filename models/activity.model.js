@@ -57,7 +57,7 @@ const Activity = new mongoose.Schema({
    },
    day: { 
       type: String,
-      enum: ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche'],
+      enum: ['', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche'],
       required: false 
    },
    date: { 
