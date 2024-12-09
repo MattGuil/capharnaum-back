@@ -1,8 +1,7 @@
 const mongoose = require('mongoose');
 
 const disciplines = ['danse', 'dessin', 'théâtre', 'musique', 'photographie'];
-const types = ['cours', 'pratique', 'rencontre', 'spectacle', 'expo'];
-const statuses = ['fermée', 'complète', 'liste d\'attente', 'sans réservation', 'ouverte'];
+const types = ['ponctuelle', 'regulière'];
 
 
 const Activity = new mongoose.Schema({
@@ -20,12 +19,16 @@ const Activity = new mongoose.Schema({
       enum: types,
       required: true 
    },
-   place: { 
+   address: { 
       type: String,
       required: true
    },
-   location: { 
+   placeName: { 
       type: String,
+      required: false
+   },
+   coordinates: {
+      type: Object,
       required: true
    },
    price: { 
@@ -60,11 +63,6 @@ const Activity = new mongoose.Schema({
    date: { 
       type: Date,
       required: false 
-   },
-   status: { 
-      type: String,
-      enum: statuses,
-      required: false
    },
    nbParticipants: { 
       type: Number,

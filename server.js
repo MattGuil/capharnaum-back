@@ -16,38 +16,38 @@ require('./config/db');
 const bodyParser = require('body-parser');
 
 const allowedOrigins = [
-  'http://localhost:5173',
-  'http://localhost:4173',
-  'https://capharnaum.vercel.app'
+	'http://localhost:5173',
+	'http://localhost:4173',
+	'https://capharnaum.vercel.app'
 ];
 
 app.use(cors({
-  origin: function(origin, callback) {
-            if (!origin || allowedOrigins.includes(origin)) {
-              callback(null, true);
-            } else {
-              callback(new Error('Not allowed by CORS'));
-            }
-  },
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true
+	origin: function (origin, callback) {
+		if (!origin || allowedOrigins.includes(origin)) {
+			callback(null, true);
+		} else {
+			callback(new Error('Not allowed by CORS'));
+		}
+	},
+	methods: ['GET', 'POST', 'PUT', 'DELETE'],
+	credentials: true
 }));
 
 app.use(cookieParser(process.env.TOKEN_SECRET));
 
 app.get('/auth/verify-session', (req, res) => {
-  const token = req.cookies.token;
+	const token = req.cookies.token;
 
-  if (token) {
-    jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
-      if (err) {
-        return res.status(401).json({ authenticated: false });
-      }
-      res.status(200).json({ authenticated: true });
-    });
-  } else {
-    res.status(402).json({ authenticated: false });
-  }
+	if (token) {
+		jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
+			if (err) {
+				return res.status(401).json({ authenticated: false });
+			}
+			res.status(200).json({ authenticated: true });
+		});
+	} else {
+		res.status(402).json({ authenticated: false });
+	}
 });
 
 
@@ -60,5 +60,5 @@ app.use('/api/favorite', favoriteRoutes);
 app.use('/api/participation', participationRoutes);
 
 app.listen(process.env.PORT, () => {
-  console.log(`Listening on port ${process.env.PORT} ...`);
+	console.log(`Listening on port ${process.env.PORT} ...`);
 });
