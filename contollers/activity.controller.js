@@ -27,6 +27,49 @@ exports.getAllActivities = async (req, res) => {
 	}
 };
 
+exports.getFilteredActivities = async (req, res) => {
+    const filters = req.body;
+    const query = {};
+
+    // Filtrage par disciplines
+    if (filters.disciplines?.length > 0) {
+        query.discipline = { $in: filters.disciplines };
+    }
+
+    // Filtrage par type
+    if (filters.type) {
+        query.type = filters.type;
+    }
+
+    // Filtrage par prix
+    if (filters.prix) {
+        query.price = { $gte: filters.prix.min, $lte: filters.prix.max };
+    }
+
+    // Filtrage par jour
+    if (filters.days?.length > 0) {
+        query.day = { $in: filters.days };
+    }
+
+    // Filtrage par intervalle de dates
+    if (filters.dateRange) {
+        query.date = { $gte: new Date(filters.dateRange.start), $lte: new Date(filters.dateRange.end) };
+    }
+
+    // Filtrage par intervalle de temps (simplifié)
+    if (filters.timeRange) {
+        query.startTime = { $gte: filters.timeRange.start };
+        query.endTime = { $lte: filters.timeRange.end };
+    }
+
+    try {
+        const activities = await Activity.find(query);
+        res.status(200).json(activities);
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+};
+
 exports.getActivityById = async (req, res) => {
 	try {
 		const activity = await Activity.findById(req.params.id);
