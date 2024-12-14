@@ -50,6 +50,11 @@ app.get('/auth/verify-session', (req, res) => {
 	}
 });
 
+const { Disciplines, ActivityTypes, Days } = require('./enums');
+
+app.get('/enums', (req, res) => {
+	res.json({ Disciplines, ActivityTypes, Days });
+});
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

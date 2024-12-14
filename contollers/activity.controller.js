@@ -131,17 +131,3 @@ exports.getActivitiesCreatedByUser = async (req, res) => {
 		});
 	}
 };
-
-exports.countActivitiesCreatedByUser = async (req, res) => {
-	try {
-		const activityCount = await Activity.countDocuments({ owner: req.params.userId });
-
-		res.status(200).json({
-			activityCount
-		});
-	} catch (error) {
-		res.status(400).json({
-			error: error.message
-		});
-	}
-};

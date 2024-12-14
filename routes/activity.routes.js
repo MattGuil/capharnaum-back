@@ -9,6 +9,5 @@ router.post('/', activityController.createActivity);
 router.put('/:id', activityController.updateActivity);
 router.delete('/:id', activityController.deleteActivity);
 router.get('/user/:userId', activityController.getActivitiesCreatedByUser);
-router.get('/count/:userId', activityController.countActivitiesCreatedByUser);
 
 module.exports = router;

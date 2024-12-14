@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
-const disciplines = ['danse', 'dessin', 'théâtre', 'musique', 'photographie'];
-const types = ['ponctuelle', 'regulière'];
+const { Disciplines, ActivityTypes, Days } = require('../enums');
 
 
 const Activity = new mongoose.Schema({
@@ -11,12 +10,12 @@ const Activity = new mongoose.Schema({
    },
    discipline: { 
       type: String,
-      enum: disciplines,
+      enum: Object.values(Disciplines),
       required: true 
    },
    type: { 
       type: String,
-      enum: types,
+      enum: Object.values(ActivityTypes),
       required: true 
    },
    address: { 
@@ -57,7 +56,7 @@ const Activity = new mongoose.Schema({
    },
    day: { 
       type: String,
-      enum: ['', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche'],
+      enum: Object.values(Days),
       required: false 
    },
    date: { 
