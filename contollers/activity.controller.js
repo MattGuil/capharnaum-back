@@ -44,16 +44,32 @@ exports.getFilteredActivities = async (req, res) => {
     }
 
     if (filters.days?.length > 0) {
-        query.day = { $in: filters.days };
+        query.$or = [
+			{ day: { $in: filters.days } },
+			{ day: "" }
+		];
     }
 
     if (filters.dateRange) {
-        query.date = { $gte: new Date(filters.dateRange.start), $lte: new Date(filters.dateRange.end) };
+        const dateQuery = {};
+		if (filters.dateRange.start) {
+			dateQuery.$gte = new Date(filters.dateRange.start);
+		}
+		if (filters.dateRange.end) {
+			dateQuery.$lte = new Date(filters.dateRange.end);
+		}
+		if (Object.keys(dateQuery).length > 0) {
+			query.date = dateQuery;
+		}
     }
 
     if (filters.timeRange) {
-        query.startTime = { $gte: filters.timeRange.start };
-        query.endTime = { $lte: filters.timeRange.end };
+        if (filters.timeRange.start) {
+			query.startTime = { $gte: filters.timeRange.start };
+		}
+		if (filters.timeRange.end) {
+			query.endTime = { $lte: filters.timeRange.end };
+		}
     }
 
     try {
