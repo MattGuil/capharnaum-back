@@ -40,7 +40,20 @@ exports.getFilteredActivities = async (req, res) => {
     }
 
     if (filters.priceRange) {
-        query.price = { $gte: filters.priceRange.min, $lte: filters.priceRange.max };
+		const priceQuery = {};
+		console.log(filters.priceRange);
+		if (filters.priceRange && filters.priceRange.min != null && filters.priceRange.max != null && filters.priceRange.min === filters.priceRange.max) {
+			priceQuery.$eq = filters.priceRange.min;
+		}
+		if (filters.priceRange.min) {
+			priceQuery.$gte = filters.priceRange.min;
+		}
+		if (filters.priceRange.max) {
+			priceQuery.$lte = filters.priceRange.max;
+		}
+		if (Object.keys(priceQuery).length > 0) {
+			query.price = priceQuery;
+		}
     }
 
     if (filters.days?.length > 0) {
