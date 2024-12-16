@@ -3,7 +3,7 @@ const router = require('express').Router();
 const activityController = require('../contollers/activity.controller');
 
 router.get('/', activityController.getAllActivities);
-router.post('/filter', activityController.getFilteredActivities);
+router.post('/filter/:userId', activityController.getFilteredActivities);
 router.get('/:id', activityController.getActivityById);
 router.post('/', activityController.createActivity);
 router.put('/:id', activityController.updateActivity);

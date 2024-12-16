@@ -29,7 +29,10 @@ exports.getAllActivities = async (req, res) => {
 
 exports.getFilteredActivities = async (req, res) => {
     const filters = req.body;
+	const userId = req.params.userId;
     const query = {};
+
+	query.owner = { $ne: userId };
 
     if (filters.disciplines?.length > 0) {
         query.discipline = { $in: filters.disciplines };
