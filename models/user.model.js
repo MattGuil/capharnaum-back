@@ -41,7 +41,7 @@ const User = new mongoose.Schema(
     },
     interests: {
       type: Array,
-      required: false
+      required: true
     },
     confirmationToken: {
       type: String,
