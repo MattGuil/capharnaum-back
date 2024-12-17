@@ -9,6 +9,7 @@ const userRoutes = require('./routes/user.routes');
 const activityRoutes = require('./routes/activity.routes');
 const favoriteRoutes = require('./routes/favorite.routes');
 const participationRoutes = require('./routes/participation.routes');
+const messageRoutes = require ('./routes/message.routes');
 
 require("dotenv").config({ path: './config/.env' });
 require('./config/db');
@@ -58,6 +59,7 @@ app.use('/api/user', userRoutes);
 app.use('/api/activity', activityRoutes);
 app.use('/api/favorite', favoriteRoutes);
 app.use('/api/participation', participationRoutes);
+app.use('/api/message', messageRoutes)
 
 app.listen(process.env.PORT, () => {
   console.log(`Listening on port ${process.env.PORT} ...`);
