@@ -48,15 +48,49 @@ exports.getParticipationsByUser = async (req, res) => {
   }
 };
 
+exports.checkFavorite = async (req, res) => {
+  try {
+    const { userId, activityId } = req.params;
+
+    const favorite = await Favorite.findOne({ user: userId, activity: activityId });
+    
+    if (favorite) {
+      return res.status(200).json({ message: 'Favorite exists' });
+    } else {
+      return res.status(204).json({ message: 'Favorite not found' });
+    }
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+exports.checkParticipation = async (req, res) => {
+  try {
+    const { userId, activityId } = req.params;
+
+    const participation = await Participation.findOne({ user: userId, activity: activityId });
+    
+    if (participation) {
+      return res.status(200).json({ message: 'Participation exists' });
+    } else {
+      return res.status(204).json({ message: 'Participation not found' });
+    }
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 exports.deleteParticipation = async (req, res) => {
   try {
-    const Participation = await Participation.findByIdAndDelete(req.params.id);
+    const { userId, activityId } = req.params;
+
+    const participation = await Participation.findOneAndDelete({ user: userId, activity: activityId });
     
-    if (!Participation) {
+    if (!participation) {
       return res.status(404).json({ message: 'Participation not found' });
     }
     
-    res.status(200).json({ message: 'Participation deleted successfully' });
+    res.status(200).json({ message: 'Participation removed successfully', participation });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

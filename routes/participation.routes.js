@@ -7,6 +7,7 @@ router.get('/', participationController.getAllParticipations);
 router.post('/', participationController.createParticipation);
 router.get('/:id', participationController.getParticipationById);
 router.get('/user/:userId', participationController.getParticipationsByUser);
-router.delete('/:id', participationController.deleteParticipation);
+router.get('/check/:userId/:activityId', participationController.checkParticipation);
+router.delete('/:userId/:activityId', participationController.deleteParticipation);
 
 module.exports = router;
