@@ -18,7 +18,7 @@ exports.createParticipation = async (req, res) => {
     
     await newParticipation.save();
     
-    res.status(201).json({ message: 'Participation created successfully', newParticipation });
+    res.status(200).json({ message: 'Participation created successfully', newParticipation });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
