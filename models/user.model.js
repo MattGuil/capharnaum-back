@@ -41,7 +41,7 @@ const User = new mongoose.Schema(
     },
     interests: {
       type: Array,
-      required: false
+      required: true
     },
     confirmationToken: {
       type: String,
@@ -84,6 +84,6 @@ User.statics.login = async function (email, password) {
   throw Error("Aucun compte n'est associé à cet email. Nous vous invitons à en créer un.");
 };
 
-const UserModel = mongoose.model("user", User);
+const UserModel = mongoose.model("User", User);
 
 module.exports = UserModel;

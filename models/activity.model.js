@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
 
-const disciplines = ['danse', 'dessin', 'théâtre', 'musique', 'photographie'];
-const types = ['cours', 'pratique', 'rencontre', 'spectacle', 'expo'];
-const statuses = ['fermée', 'complète', 'liste d\'attente', 'sans réservation', 'ouverte'];
+const { Disciplines, ActivityTypes, Days } = require('../enums');
 
 
 const Activity = new mongoose.Schema({
@@ -12,20 +10,24 @@ const Activity = new mongoose.Schema({
    },
    discipline: { 
       type: String,
-      enum: disciplines,
+      enum: Object.values(Disciplines),
       required: true 
    },
    type: { 
       type: String,
-      enum: types,
+      enum: Object.values(ActivityTypes),
       required: true 
    },
-   place: { 
+   address: { 
       type: String,
       required: true
    },
-   location: { 
+   placeName: { 
       type: String,
+      required: false
+   },
+   coordinates: {
+      type: Object,
       required: true
    },
    price: { 
@@ -54,17 +56,12 @@ const Activity = new mongoose.Schema({
    },
    day: { 
       type: String,
-      enum: ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche'],
+      enum: Object.values(Days),
       required: false 
    },
    date: { 
       type: Date,
       required: false 
-   },
-   status: { 
-      type: String,
-      enum: statuses,
-      required: false
    },
    nbParticipants: { 
       type: Number,
@@ -85,4 +82,4 @@ const Activity = new mongoose.Schema({
    }
  });
 
-module.exports = mongoose.model("activity", Activity);
+module.exports = mongoose.model("Activity", Activity);

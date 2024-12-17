@@ -4,10 +4,10 @@ const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
 
 module.exports.signUp = async (req, res) => {
-  const { nom, prenom, email, password } = req.body;
+  const { nom, prenom, email, password, interests } = req.body;
 
   try {
-    if (!nom || !prenom || !email || !password) {
+    if (!nom || !prenom || !email || !password || interests.length == 0) {
       return res.status(400).json({ error: "Tous les champs sont requis." });
     }
 
@@ -21,6 +21,7 @@ module.exports.signUp = async (req, res) => {
       prenom,
       email,
       password,
+      interests,
       confirmationToken: generateToken(),
     });
 
