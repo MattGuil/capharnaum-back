@@ -32,4 +32,22 @@ router.get('/:userId/messages', async (req, res) => {
     }
   });
   
+  router.get('/:from/:to/conversation', async (req, res) => {
+    const { from, to } = req.params;
+  
+    try {
+      const messages = await Message.find({
+        $or: [
+          { from: from, to: to }, // Messages envoyés par 'fromId' à 'toId'
+          { from: to, to: from }  // Messages envoyés par 'toId' à 'fromId'
+        ]
+      }).sort({ createdAt: 1 }); // Trier les messages par date croissante
+  
+      res.status(200).json(messages);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Erreur lors de la récupération des messages' });
+    }
+  });
+  
 module.exports = router;
