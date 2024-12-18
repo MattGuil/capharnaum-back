@@ -12,6 +12,7 @@ const ActivityTypes = {
 }
 
 const Days = {
+    EMPTY: '',
     LUNDI: 'lundi',
     MARDI: 'mardi',
     MERCREDI: 'mercredi',

@@ -34,6 +34,20 @@ app.use(cors({
 	credentials: true
 }));
 
+app.get('/geocode', async (req, res) => {
+    const address = req.query.address;
+    const apiKey = process.env.GOOGLE_API_KEY;
+    const googleMapsUrl = `https://maps.google.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`;
+
+    try {
+        const response = await axios.get(googleMapsUrl);
+        res.json(response.data);
+    } catch (error) {
+        console.error("Erreur lors de l'appel à l'API Google Maps:", error);
+        res.status(500).json({ error: "Erreur lors de l'appel à l'API Google Maps" });
+    }
+});
+
 app.use(cookieParser(process.env.TOKEN_SECRET));
 
 app.get('/auth/verify-session', (req, res) => {
