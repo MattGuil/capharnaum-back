@@ -15,7 +15,7 @@ router.post('/send', async (req, res) => {
 	try {
 		const newMessage = new Message({ from, to, content });
 		await newMessage.save();
-		res.status(201).json({ success: 'Message envoyé avec succès' });
+		res.status(201).json({ success: 'Message envoyé avec succès', message: newMessage });
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({ error: 'Erreur lors de l\'envoi du message' });
