@@ -65,7 +65,7 @@ const Activity = new mongoose.Schema({
    },
    nbParticipants: { 
       type: Number,
-      required: false
+      default: 0
    },
    maxParticipants: { 
       type: Number,

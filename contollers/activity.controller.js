@@ -113,6 +113,64 @@ exports.getActivityById = async (req, res) => {
 	}
 };
 
+exports.incrementParticipants = async (req, res) => {
+    try {
+        const activity = await Activity.findById(req.params.id);
+        if (!activity) {
+            return res.status(404).json({
+                message: 'Activity not found'
+            });
+        }
+
+        if (activity.nbParticipants >= activity.maxParticipants) {
+            return res.status(400).json({
+                message: 'Cannot increment participants, the activity is full'
+            });
+        }
+
+        activity.nbParticipants += 1;
+        await activity.save();
+
+        res.status(200).json({
+            message: 'Participant added successfully',
+            activity
+        });
+    } catch (error) {
+        res.status(400).json({
+            error: error.message
+        });
+    }
+};
+
+exports.decrementParticipants = async (req, res) => {
+    try {
+        const activity = await Activity.findById(req.params.id);
+        if (!activity) {
+            return res.status(404).json({
+                message: 'Activity not found'
+            });
+        }
+
+        if (activity.nbParticipants == activity.maxParticipants) {
+            return res.status(400).json({
+                message: 'Cannot decrement participants, the activity has no participant'
+            });
+        }
+
+        activity.nbParticipants -= 1;
+        await activity.save();
+
+        res.status(200).json({
+            message: 'Participant removed successfully',
+            activity
+        });
+    } catch (error) {
+        res.status(400).json({
+            error: error.message
+        });
+    }
+};
+
 exports.updateActivity = async (req, res) => {
 	try {
 		const activity = await Activity.findByIdAndUpdate(req.params.id, req.body, { new: true });
