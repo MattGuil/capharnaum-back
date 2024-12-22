@@ -179,7 +179,10 @@ exports.updateActivity = async (req, res) => {
 				message: 'Activity not found'
 			});
 		}
-		res.status(200).json(activity);
+		res.status(200).json({
+			message: 'Activity updated successfully',
+			activity
+		});
 	} catch (error) {
 		res.status(400).json({
 			error: error.message
