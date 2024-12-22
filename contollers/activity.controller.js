@@ -151,7 +151,7 @@ exports.decrementParticipants = async (req, res) => {
             });
         }
 
-        if (activity.nbParticipants == activity.maxParticipants) {
+        if (activity.nbParticipants == 0) {
             return res.status(400).json({
                 message: 'Cannot decrement participants, the activity has no participant'
             });
