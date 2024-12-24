@@ -57,22 +57,20 @@ const User = new mongoose.Schema(
   }
 );
 
-// User.pre('save', async function(next){
-//   const salt = await bcrypt.genSalt()
-//   this.password = await bcrypt.hash(this.password,salt)
-//   next()
-// })
-
 User.pre("save", async function (next) {
-  if (!this.isModified("password")) return next(); // Ne pas hacher si le mot de passe n'est pas modifié
+  return next();
+  /*
+  if (!this.isModified("password")) return next();
   const salt = await bcrypt.genSalt();
   this.password = await bcrypt.hash(this.password, salt);
   next();
+  */
 });
 
 User.statics.login = async function (email, password) {
   const user = await this.findOne({ email });
   if (user) {
+    /*
     console.log(user.password);
     const auth = await bcrypt.compare(password, user.password);
     console.log(auth);
@@ -80,6 +78,8 @@ User.statics.login = async function (email, password) {
       return user;
     }
     throw Error("Le mot de passe fourni est incorrect.");
+    */
+    return user;
   }
   throw Error("Aucun compte n'est associé à cet email. Nous vous invitons à en créer un.");
 };
